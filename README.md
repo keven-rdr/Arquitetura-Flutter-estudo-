@@ -42,19 +42,33 @@ simples, modular e ideal para projetos Flutter com Design System.
     -   Representa dados estruturados, como armas, acessórios e
         estatísticas.
 
-### Exemplo real do projeto:
+------------------------------------------------------------------------
 
--   `ActionButtonViewModel` controla estado do botão (tamanho, estilo,
-    ação).\
--   `InputTextViewModel` controla texto, validação, tipo (senha, texto
-    etc.).\
--   `InfoCardViewModel` popula cards de arma com dados vindos do model.
+## 📚 Exemplos de Utilização do MVVM no Projeto
 
-Essa separação garante:
+### Exemplo: Campo de Login
 
--   Reutilização dos componentes.\
--   Fácil manutenção.\
--   Mais organização e legibilidade.
+**View (UI)**\
+Renderiza o input e liga ao ViewModel:
+
+``` dart
+StyledInputField.instantiate(
+  viewModel: loginViewModel.usernameField,
+)
+```
+
+**ViewModel**\
+Gerencia texto, validação e estado:
+
+``` dart
+class LoginViewModel {
+  final usernameField = InputTextViewModel(
+    label: "Usuário",
+    hintText: "Digite seu username",
+    validator: (value) => value.isEmpty ? "Campo obrigatório" : null,
+  );
+}
+```
 
 ------------------------------------------------------------------------
 
