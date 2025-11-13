@@ -7,7 +7,6 @@ import '../../DesignSystem/Components/InputField/input_text_view_model.dart';
 import '../../resources/shared/colors.dart';
 import 'login_view_model.dart';
 
-
 class LoginView extends StatefulWidget {
   final LoginViewModel viewModel;
   const LoginView({super.key, required this.viewModel});
@@ -19,6 +18,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final _loginController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -63,14 +63,28 @@ class _LoginViewState extends State<LoginView> {
                   size: ActionButtonSize.large,
                   style: ActionButtonStyle.primary,
                   text: 'Entrar',
-                  onPressed: () {
-                    final user = _loginController.text;
-                    final password = _passwordController.text;
-                    widget.viewModel.performLogin(user: user, password: password, onSuccess: (name, address) {
-                      //mudança de esta
-                      widget.viewModel.presentHome(name, address);
+                    onPressed: () async {
+                      final user = _loginController.text;
+                      final password = _passwordController.text;
 
-                    });
+                      setState(() {
+                        _isLoading = true;
+                      });
+
+                      try {
+                        await widget.viewModel.performLogin(
+                          user: user,
+                          password: password,
+                          onSuccess: (name, address) {
+                            widget.viewModel.presentHome(name, address);
+                          },
+                        );
+                      } catch (e) {
+                        print("Erro no login: $e");
+                        setState(() {
+                          _isLoading = false;
+                        });
+                      }
                   },
                 ),
               ),
