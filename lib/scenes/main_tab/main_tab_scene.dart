@@ -2,20 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../DesignSystem/Components/BottomTabBar/bottom_tab_bar.dart';
 import '../../DesignSystem/Components/BottomTabBar/bottom_tab_bar_view_model.dart';
-import '../../resources/shared/app_coordinator.dart';
 import '../../resources/shared/colors.dart';
-
-class MainTabFactory {
-  static Widget make({required AppCoordinator coordinator}) {
-    final viewModel = MainTabViewModel(coordinator: coordinator);
-    return MainTabScene(viewModel: viewModel);
-  }
-}
-
-class MainTabViewModel {
-  final AppCoordinator coordinator;
-  MainTabViewModel({required this.coordinator});
-}
+import '../Favorites/favorites_scene.dart';
+import '../Home/home_scene.dart';
+import '../Matches/match_scene.dart';
+import '../Profile/profile_scene.dart';
+import 'main_tab_view_model.dart';
 
 class MainTabScene extends StatefulWidget {
   final MainTabViewModel viewModel;
@@ -83,34 +75,3 @@ class _MainTabSceneState extends State<MainTabScene> implements BottomTabBarDele
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: Text('Home Page', style: TextStyle(color: Colors.white)));
-  }
-}
-
-class MatchesPage extends StatelessWidget {
-  const MatchesPage({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: Text('Matches Page', style: TextStyle(color: Colors.white)));
-  }
-}
-
-class FavoritesPage extends StatelessWidget {
-  const FavoritesPage({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: Text('Favorites Page', style: TextStyle(color: Colors.white)));
-  }
-}
-
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: Text('Profile Page', style: TextStyle(color: Colors.white)));
-  }
-}

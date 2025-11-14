@@ -1,6 +1,5 @@
-import 'package:asdasd/DesignSystem/Components/ValueComparisonCard/value_comparison_card_view_model.dart';
+import 'package:arqmvvm/DesignSystem/Components/ValueComparisonCard/value_comparison_card_view_model.dart';
 import 'package:flutter/material.dart';
-
 import '../../../resources/shared/colors.dart';
 
 class ValueComparisonCard extends StatelessWidget {

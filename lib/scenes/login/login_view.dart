@@ -4,6 +4,8 @@ import '../../DesignSystem/Components/Buttons/ActionButton/action_button.dart';
 import '../../DesignSystem/Components/Buttons/ActionButton/action_button_view_model.dart';
 import '../../DesignSystem/Components/InputField/input_text.dart';
 import '../../DesignSystem/Components/InputField/input_text_view_model.dart';
+import '../../DesignSystem/Components/Spinner/spinner.dart';
+import '../../DesignSystem/Components/Spinner/spinner_view_model.dart';
 import '../../resources/shared/colors.dart';
 import 'login_view_model.dart';
 
@@ -30,68 +32,85 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: brandSecondary.withOpacity(0.9),
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              StyledInputField.instantiate(
-                viewModel: InputTextViewModel(
-                  controller: _loginController,
-                  label: 'Login',
-                  hintText: 'Digite seu usuário',
-                  theme: InputFieldTheme.dark,
-                ),
-              ),
-              const SizedBox(height: 24),
-              StyledInputField.instantiate(
-                viewModel: InputTextViewModel(
-                  controller: _passwordController,
-                  label: 'Senha',
-                  hintText: 'Digite sua senha',
-                  isPassword: true,
-                  theme: InputFieldTheme.dark,
-                ),
-              ),
-              const SizedBox(height: 32),
-              ActionButton.instantiate(
-                viewModel: ActionButtonViewModel(
-                  size: ActionButtonSize.large,
-                  style: ActionButtonStyle.primary,
-                  text: 'Entrar',
-                    onPressed: () async {
-                      final user = _loginController.text;
-                      final password = _passwordController.text;
+    return Stack(
+      children: [
+        Scaffold(
+          backgroundColor: brandSecondary.withOpacity(0.9),
+          body: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  StyledInputField.instantiate(
+                    viewModel: InputTextViewModel(
+                      controller: _loginController,
+                      label: 'Login',
+                      hintText: 'Digite seu usuário',
+                      theme: InputFieldTheme.dark,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  StyledInputField.instantiate(
+                    viewModel: InputTextViewModel(
+                      controller: _passwordController,
+                      label: 'Senha',
+                      hintText: 'Digite sua senha',
+                      isPassword: true,
+                      theme: InputFieldTheme.dark,
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  ActionButton.instantiate(
+                    viewModel: ActionButtonViewModel(
+                      size: ActionButtonSize.large,
+                      style: ActionButtonStyle.primary,
+                      text: 'Entrar',
+                      onPressed: () async {
+                        final user = _loginController.text;
+                        final password = _passwordController.text;
 
-                      setState(() {
-                        _isLoading = true;
-                      });
-
-                      try {
-                        await widget.viewModel.performLogin(
-                          user: user,
-                          password: password,
-                          onSuccess: (name, address) {
-                            widget.viewModel.presentHome(name, address);
-                          },
-                        );
-                      } catch (e) {
-                        print("Erro no login: $e");
                         setState(() {
-                          _isLoading = false;
+                          _isLoading = true;
                         });
-                      }
-                  },
-                ),
+
+                        try {
+                          await widget.viewModel.performLogin(
+                            user: user,
+                            password: password,
+                            onSuccess: () {
+                              widget.viewModel.presentHome();
+                            },
+                          );
+                        } catch (e) {
+                          print("Erro no login: $e");
+                          setState(() {
+                            _isLoading = false;
+                          });
+                        }
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
-      ),
+
+        Visibility(
+          visible: _isLoading,
+          child: Container(
+            color: Colors.black.withOpacity(0.5),
+            child: SpinnerComponent.instantiate(
+              viewModel: SpinnerViewModel(
+                color: brandPrimary,
+                size: 50.0,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
