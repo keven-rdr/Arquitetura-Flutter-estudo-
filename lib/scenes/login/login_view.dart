@@ -1,3 +1,4 @@
+import 'package:arqmvvm/DesignSystem/Components/Animations/vs_animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../DesignSystem/Components/Buttons/ActionButton/action_button.dart';
@@ -16,7 +17,6 @@ class LoginView extends StatefulWidget {
   State<LoginView> createState() => _LoginViewState();
 }
 
-
 class _LoginViewState extends State<LoginView> {
   final _loginController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -29,6 +29,70 @@ class _LoginViewState extends State<LoginView> {
     super.dispose();
   }
 
+  Widget _buildHeader() {
+    return const VsAnimation(height: 180);
+  }
+
+  Widget _buildBody() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        StyledInputField.instantiate(
+          viewModel: InputTextViewModel(
+            controller: _loginController,
+            label: 'Login',
+            hintText: 'Digite seu usuário',
+            theme: InputFieldTheme.dark,
+          ),
+        ),
+        const SizedBox(height: 24),
+        StyledInputField.instantiate(
+          viewModel: InputTextViewModel(
+            controller: _passwordController,
+            label: 'Senha',
+            hintText: 'Digite sua senha',
+            isPassword: true,
+            theme: InputFieldTheme.dark,
+          ),
+        ),
+        const SizedBox(height: 32),
+        ActionButton.instantiate(
+          viewModel: ActionButtonViewModel(
+            size: ActionButtonSize.large,
+            style: ActionButtonStyle.primary,
+            text: 'Entrar',
+            onPressed: () async {
+              final user = _loginController.text;
+              final password = _passwordController.text;
+
+              setState(() {
+                _isLoading = true;
+              });
+
+              try {
+                await widget.viewModel.performLogin(
+                  user: user,
+                  password: password,
+                  onSuccess: () {
+                    widget.viewModel.presentHome();
+                  },
+                );
+              } catch (e) {
+                print("Erro no login: $e");
+                setState(() {
+                  _isLoading = false;
+                });
+              }
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFooter() {
+    return Container();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,62 +100,20 @@ class _LoginViewState extends State<LoginView> {
       children: [
         Scaffold(
           backgroundColor: brandSecondary.withOpacity(0.9),
-          body: Center(
+          body: SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(24.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  StyledInputField.instantiate(
-                    viewModel: InputTextViewModel(
-                      controller: _loginController,
-                      label: 'Login',
-                      hintText: 'Digite seu usuário',
-                      theme: InputFieldTheme.dark,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  StyledInputField.instantiate(
-                    viewModel: InputTextViewModel(
-                      controller: _passwordController,
-                      label: 'Senha',
-                      hintText: 'Digite sua senha',
-                      isPassword: true,
-                      theme: InputFieldTheme.dark,
-                    ),
-                  ),
+                  _buildHeader(),
                   const SizedBox(height: 32),
-                  ActionButton.instantiate(
-                    viewModel: ActionButtonViewModel(
-                      size: ActionButtonSize.large,
-                      style: ActionButtonStyle.primary,
-                      text: 'Entrar',
-                      onPressed: () async {
-                        final user = _loginController.text;
-                        final password = _passwordController.text;
 
-                        setState(() {
-                          _isLoading = true;
-                        });
+                  _buildBody(),
+                  const SizedBox(height: 32),
 
-                        try {
-                          await widget.viewModel.performLogin(
-                            user: user,
-                            password: password,
-                            onSuccess: () {
-                              widget.viewModel.presentHome();
-                            },
-                          );
-                        } catch (e) {
-                          print("Erro no login: $e");
-                          setState(() {
-                            _isLoading = false;
-                          });
-                        }
-                      },
-                    ),
-                  ),
+                  _buildFooter(),
                 ],
               ),
             ),
