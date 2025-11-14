@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Color brandPrimary = Color(0xFFFFC72C);
+const Color brandPrimary = Color(0xFFEC8003);
 const Color brandSecondary = Color(0xFF212121);
 
 const Color destructive = Color(0xFFD32F2F);
@@ -23,4 +23,4 @@ const Color surfaceBackgroundColorLight = neutralGray200;
 
 const Color lightPrimaryBrandColor = Color(0xffFAE187);
 const Color normalPrimaryBrandColor = Color(0xffF8D247);
-const Color darkPrimaryBrandColor = Color(0xffE0B827);
+const Color darkPrimaryBrandColor = Color(0xffec8003);

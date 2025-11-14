@@ -4,7 +4,7 @@ import '../../DesignSystem/Components/BottomTabBar/bottom_tab_bar.dart';
 import '../../DesignSystem/Components/BottomTabBar/bottom_tab_bar_view_model.dart';
 import '../../resources/shared/colors.dart';
 import '../Favorites/favorites_scene.dart';
-import '../Home/home_scene.dart';
+import '../Home/home_view.dart';
 import '../Matches/match_scene.dart';
 import '../Profile/profile_scene.dart';
 import 'main_tab_view_model.dart';
