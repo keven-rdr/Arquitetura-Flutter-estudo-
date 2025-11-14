@@ -1,7 +1,7 @@
+import 'package:arqmvvm/scenes/main_tab/main_tab_factory.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../scenes/login/login_factory.dart';
-import '../../scenes/main_tab/home_factory.dart';
 
 class AppCoordinator {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -16,8 +16,8 @@ class AppCoordinator {
   }
 
 
-  void goToHome({required String name, required String address}) {
-    final home = HomeFactory.make(name: name, address: address, coordinator: this);
+  void goToHome() {
+    final home = MainTabFactory.make(coordinator: this);
     navigatorKey.currentState?.pushReplacement( MaterialPageRoute(builder: (_) => home ));
   }
 
