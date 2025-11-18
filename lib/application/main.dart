@@ -14,6 +14,7 @@ class Application extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(title: "MVVC Sample",
         navigatorKey: coordinator.navigatorKey,
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)),
         home: coordinator.startApp());
   }
