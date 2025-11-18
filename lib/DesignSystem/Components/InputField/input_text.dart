@@ -51,8 +51,8 @@ class StyledInputFieldState extends State<StyledInputField> {
   @override
   Widget build(BuildContext context) {
     final isDark = widget.viewModel.theme == InputFieldTheme.dark;
-    final backgroundColor = isDark ? brandSecondary : neutralLight;
-    final textColor = isDark ? neutralLight : brandSecondary;
+    final backgroundColor = isDark ? blackCard : neutralLight;
+    final textColor = isDark ? neutralLight : blackCard;
     final hintColor = isDark ? neutralGrey.withOpacity(0.6) : neutralGrey;
     final labelColor = brandPrimary;
     final iconColor = brandPrimary;

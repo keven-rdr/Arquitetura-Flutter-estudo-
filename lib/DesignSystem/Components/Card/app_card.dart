@@ -11,9 +11,9 @@ class AppCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isDark = viewModel.theme == CardTheme.dark;
-    final Color cardColor = isDark ? brandSecondary : neutralLight;
+    final Color cardColor = isDark ? blackCard : neutralLight;
     final Color titleColor = isDark ? neutralLight : brandPrimary;
-    final Color primaryTextColor = isDark ? neutralLight : brandSecondary;
+    final Color primaryTextColor = isDark ? neutralLight : blackCard;
     final Color secondaryTextColor = isDark ? neutralGrey : brandSecondary.withOpacity(0.7);
 
     Widget cardContent;
