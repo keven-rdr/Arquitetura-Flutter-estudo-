@@ -1,6 +1,6 @@
-import 'package:arqmvvm/DesignSystem/Components/Animations/vs_animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../DesignSystem/Components/Animations/vs_animation.dart';
 import '../../DesignSystem/Components/Buttons/ActionButton/action_button.dart';
 import '../../DesignSystem/Components/Buttons/ActionButton/action_button_view_model.dart';
 import '../../DesignSystem/Components/InputField/input_text.dart';
@@ -99,7 +99,7 @@ class _LoginViewState extends State<LoginView> {
     return Stack(
       children: [
         Scaffold(
-          backgroundColor: brandSecondary.withOpacity(0.9),
+          backgroundColor: neutralBlack.withOpacity(0.9),
           body: SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(24.0),
@@ -109,10 +109,8 @@ class _LoginViewState extends State<LoginView> {
                 children: [
                   _buildHeader(),
                   const SizedBox(height: 32),
-
                   _buildBody(),
                   const SizedBox(height: 32),
-
                   _buildFooter(),
                 ],
               ),

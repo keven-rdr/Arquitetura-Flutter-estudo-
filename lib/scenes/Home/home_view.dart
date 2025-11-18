@@ -1,10 +1,13 @@
-import 'package:arqmvvm/DesignSystem/Components/InputField/input_text.dart';
-import 'package:arqmvvm/resources/shared/colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:arqmvvm/DesignSystem/Components/InputField/input_text.dart';
+import 'package:arqmvvm/resources/shared/colors.dart';
+import '../../DesignSystem/Components/Card/app_card.dart';
 import '../../DesignSystem/Components/InputField/input_text_view_model.dart';
-
+import '../../DesignSystem/Components/Spinner/spinner.dart';
+import '../../DesignSystem/Components/Spinner/spinner_view_model.dart';
+import 'home_view_model.dart';
+import '../../repositories/weapon_repository.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,10 +18,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _searchController = TextEditingController();
+  late final HomeViewModel _viewModel;
 
   @override
   void initState() {
     super.initState();
+    _viewModel = HomeViewModel(repository: WeaponRepository());
     _searchController.addListener(_onSearchChanged);
   }
 
@@ -30,43 +35,87 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onSearchChanged(){
-    final query = _searchController.text;
-    print("Buscando por: $query");
+    _viewModel.search(_searchController.text);
   }
 
   Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        StyledInputField.instantiate(
-          viewModel: InputTextViewModel(
-            controller: _searchController,
-            label: null,
-            hintText: 'Digite para buscar...',
-            theme: InputFieldTheme.dark,
-            prefixIcon: LucideIcons.search,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20.0),
+      child: StyledInputField.instantiate(
+        viewModel: InputTextViewModel(
+          controller: _searchController,
+          label: null,
+          hintText: 'Busque por arma...',
+          theme: InputFieldTheme.dark,
+          prefixIcon: LucideIcons.search,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBody() {
+    if (_viewModel.cards.isEmpty && !_viewModel.isLoading) {
+      return const Center(
+        child: Padding(
+          padding: EdgeInsets.only(top: 40.0),
+          child: Text("Nenhuma arma encontrada",
+            style: TextStyle(color: Colors.grey),
           ),
         ),
-      ],
+      );
+    }
+
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: _viewModel.cards.length,
+      separatorBuilder: (context, index) => const SizedBox(height: 16),
+      itemBuilder: (context, index) {
+        return AppCard(viewModel: _viewModel.cards[index]);
+      },
+    );
+  }
+
+  Widget _buildLoadingOverlay() {
+    return Visibility(
+      visible: _viewModel.isLoading,
+      child: Container(
+        color: Colors.black.withOpacity(0.5),
+        child: SpinnerComponent.instantiate(
+          viewModel: SpinnerViewModel(
+            color: brandPrimary,
+            size: 50.0,
+          ),
+        ),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Scaffold(
-          backgroundColor: brandSecondary.withOpacity(0.9),
-          body: SafeArea(child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                _buildHeader(),
-              ],
+    return ListenableBuilder(
+      listenable: _viewModel,
+      builder: (context, child) {
+        return Stack(
+          children: [
+            Scaffold(
+              backgroundColor: dividerColorLight,
+              body: SafeArea(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      _buildHeader(),
+                      _buildBody(),
+                    ],
+                  ),
+                ),
+              ),
             ),
-          )),
-        )
-      ],
+            _buildLoadingOverlay(),
+          ],
+        );
+      },
     );
   }
 }

@@ -21,8 +21,8 @@ class ActionButtonViewModel {
   final VoidCallback? onPressed;
 
   ActionButtonViewModel({
-    required this.size,
-    required this.style,
+    this.size = ActionButtonSize.small,
+    this.style = ActionButtonStyle.primary,
     this.text = '',
     this.icon,
     this.onPressed,
