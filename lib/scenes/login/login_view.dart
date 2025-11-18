@@ -82,6 +82,13 @@ class _LoginViewState extends State<LoginView> {
                 setState(() {
                   _isLoading = false;
                 });
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(e.toString().replaceAll('Exception: ', '')),
+                    backgroundColor: Colors.red,
+                  ),
+                );
               }
             },
           ),
