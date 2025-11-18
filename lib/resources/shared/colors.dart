@@ -17,6 +17,7 @@ const Color neutralGray700 = Color(0xFF4B4B4B);
 const Color primaryTextColorLight = neutralBlack;
 const Color secondaryTextColorLight = neutralGray700;
 const Color tertiaryTextColorLight = neutralGray200;
+const Color dividerColorLight = Color(0xFF282929);
 
 const Color screenBackgroundColorLight = neutralWhite;
 const Color surfaceBackgroundColorLight = neutralGray200;
