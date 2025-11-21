@@ -28,11 +28,19 @@ class AppCard extends StatelessWidget {
       cardContent = const Center(child: Text('Tipo de Card Inválido'));
     }
 
+    final Border? conditionalBorder = viewModel.isSelected
+        ? Border.all(
+      color: brandPrimary,
+      width: 3.0,
+    )
+        : null;
+
     return Container(
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
         color: cardColor,
         borderRadius: BorderRadius.circular(24.0),
+        border: conditionalBorder,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(isDark ? 0.3 : 0.08),
