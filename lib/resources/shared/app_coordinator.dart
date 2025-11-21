@@ -7,12 +7,21 @@ class AppCoordinator {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   Widget startApp() {
-    return goToLogin();
+    return goToLoginWidget();
   }
 
-
-  Widget goToLogin() {
+  Widget goToLoginWidget() {
     return LoginFactory.make(coordinator: this);
+  }
+
+  void goToLogin() {
+    final login = LoginFactory.make(coordinator: this);
+
+    // Limpa toda a pilha de navegação (Home, Profile, etc.) e coloca o Login
+    navigatorKey.currentState?.pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => login),
+          (Route<dynamic> route) => false, // 'false' garante que todas as rotas anteriores sejam removidas
+    );
   }
 
 
@@ -21,4 +30,4 @@ class AppCoordinator {
     navigatorKey.currentState?.pushReplacement( MaterialPageRoute(builder: (_) => home ));
   }
 
-} 
+}

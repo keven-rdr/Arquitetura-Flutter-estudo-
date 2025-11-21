@@ -1,3 +1,5 @@
+import 'package:arqmvvm/scenes/Profile/profile_factory.dart';
+
 import '../../DesignSystem/Components/BottomTabBar/bottom_tab_bar.dart';
 import '../../DesignSystem/Components/BottomTabBar/bottom_tab_bar_view_model.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +8,6 @@ import '../../resources/shared/colors.dart';
 import '../Favorites/favorites_scene.dart';
 import '../Home/home_factory.dart';
 import '../Matches/matches_factory.dart';
-import '../Profile/profile_scene.dart';
 import 'main_tab_view_model.dart';
 
 class MainTabScene extends StatefulWidget {
@@ -28,7 +29,7 @@ class _MainTabSceneState extends State<MainTabScene> implements BottomTabBarDele
       HomeFactory.make(coordinator: coordinator),
       MatchesFactory.make(coordinator: coordinator),
       const FavoritesPage(),
-      const ProfilePage(),
+      ProfileFactory.make(coordinator: coordinator)
     ];
   }
 
