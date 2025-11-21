@@ -6,11 +6,13 @@ import '../../DesignSystem/Components/Card/app_card.dart';
 import '../../DesignSystem/Components/InputField/input_text_view_model.dart';
 import '../../DesignSystem/Components/Spinner/spinner.dart';
 import '../../DesignSystem/Components/Spinner/spinner_view_model.dart';
+import '../../resources/services/comparison_service.dart';
 import 'home_view_model.dart';
-import '../../repositories/weapon_repository.dart';
+import 'package:arqmvvm/resources/repositories/weapon_repository.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final HomeViewModel viewModel;
+  const HomePage({super.key, required this.viewModel});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -23,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _viewModel = HomeViewModel(repository: WeaponRepository());
+    _viewModel = HomeViewModel(repository: WeaponRepository(), comparisonService: ComparisonService());
     _searchController.addListener(_onSearchChanged);
   }
 
