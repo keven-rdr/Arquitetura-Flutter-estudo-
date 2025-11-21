@@ -43,15 +43,6 @@ class _MatchesPageState extends State<MatchesPage> {
                     ValueComparisonCard(
                       viewModel: widget.viewModel.buildComparisonCard('Dano', 'Dano Base'),
                     ),
-                    const SizedBox(height: 16),
-                    if (weapons.length < widget.viewModel.limit)
-                      TextButton.icon(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        icon: const Icon(LucideIcons.plusCircle, color: brandPrimary),
-                        label: const Text("Adicionar outra arma", style: TextStyle(color: brandPrimary)),
-                      ),
                   ],
                 )
             ),
