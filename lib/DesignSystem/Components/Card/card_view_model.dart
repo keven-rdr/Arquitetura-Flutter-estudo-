@@ -19,7 +19,8 @@ class FormFieldModel {
 
 abstract class AppCardViewModel {
   final CardTheme theme;
-  AppCardViewModel({this.theme = CardTheme.dark});
+  final bool isSelected;
+  AppCardViewModel({this.theme = CardTheme.dark, this.isSelected = false});
 }
 
 class InfoCardViewModel extends AppCardViewModel {
@@ -34,6 +35,7 @@ class InfoCardViewModel extends AppCardViewModel {
     required this.details,
     required this.actions,
     super.theme,
+    super.isSelected,
   });
 }
 
