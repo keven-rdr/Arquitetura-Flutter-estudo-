@@ -8,6 +8,7 @@ const Color destructive = Color(0xFFD32F2F);
 const Color neutralLight = Color(0xFFFFFFFF);
 const Color neutralDark = Color(0xFF000000);
 const Color neutralGrey = Color(0xFFBDBDBD);
+const Color blackCard = Color(0xFF121212);
 
 const Color neutralGray200 = Color(0xFFEDEEF1);
 const Color neutralWhite = Color(0xFFFFFFFF);

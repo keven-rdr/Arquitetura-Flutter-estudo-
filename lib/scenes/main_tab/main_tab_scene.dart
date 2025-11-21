@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 import '../../DesignSystem/Components/BottomTabBar/bottom_tab_bar.dart';
 import '../../DesignSystem/Components/BottomTabBar/bottom_tab_bar_view_model.dart';
+import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import '../../resources/shared/colors.dart';
 import '../Favorites/favorites_scene.dart';
-import '../Home/home_view.dart';
-import '../Matches/match_scene.dart';
+import '../Home/home_factory.dart';
+import '../Matches/matches_factory.dart';
 import '../Profile/profile_scene.dart';
 import 'main_tab_view_model.dart';
 
@@ -21,12 +21,16 @@ class MainTabScene extends StatefulWidget {
 class _MainTabSceneState extends State<MainTabScene> implements BottomTabBarDelegate {
   int _currentIndex = 0;
 
-  final List<Widget> _pages = [
-    const HomePage(),
-    const MatchesPage(),
-    const FavoritesPage(),
-    const ProfilePage(),
-  ];
+  List<Widget> get _pages {
+    final coordinator = widget.viewModel.coordinator;
+
+    return [
+      HomeFactory.make(coordinator: coordinator),
+      MatchesFactory.make(coordinator: coordinator),
+      const FavoritesPage(),
+      const ProfilePage(),
+    ];
+  }
 
   @override
   void onIndexChange(int currentIndex) {

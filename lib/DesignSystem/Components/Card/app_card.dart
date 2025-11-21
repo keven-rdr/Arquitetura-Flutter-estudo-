@@ -11,9 +11,9 @@ class AppCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isDark = viewModel.theme == CardTheme.dark;
-    final Color cardColor = isDark ? brandSecondary : neutralLight;
+    final Color cardColor = isDark ? blackCard : neutralLight;
     final Color titleColor = isDark ? neutralLight : brandPrimary;
-    final Color primaryTextColor = isDark ? neutralLight : brandSecondary;
+    final Color primaryTextColor = isDark ? neutralLight : blackCard;
     final Color secondaryTextColor = isDark ? neutralGrey : brandSecondary.withOpacity(0.7);
 
     Widget cardContent;
@@ -28,11 +28,19 @@ class AppCard extends StatelessWidget {
       cardContent = const Center(child: Text('Tipo de Card Inválido'));
     }
 
+    final Border? conditionalBorder = viewModel.isSelected
+        ? Border.all(
+      color: brandPrimary,
+      width: 3.0,
+    )
+        : null;
+
     return Container(
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
         color: cardColor,
         borderRadius: BorderRadius.circular(24.0),
+        border: conditionalBorder,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(isDark ? 0.3 : 0.08),

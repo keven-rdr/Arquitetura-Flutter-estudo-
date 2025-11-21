@@ -1,4 +1,5 @@
-import 'package:arqmvvm/repositories/weapon_repository.dart';
+import 'package:arqmvvm/resources/repositories/weapon_repository.dart';
+import 'package:arqmvvm/resources/services/comparison_service.dart';
 import 'package:flutter/material.dart' hide CardTheme;
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../DesignSystem/Components/Buttons/ActionButton/action_button_view_model.dart';
@@ -6,9 +7,23 @@ import '../../DesignSystem/Components/Card/card_view_model.dart';
 
 class HomeViewModel extends ChangeNotifier {
   final WeaponRepository _repository;
+  final ComparisonService _comparisonService;
 
-  HomeViewModel({required WeaponRepository repository}) : _repository = repository{
+  HomeViewModel({required WeaponRepository repository, required ComparisonService comparisonService,}) : _repository = repository, _comparisonService = comparisonService {
+    _comparisonService.addListener(_onComparisonServiceChange);
     search('');
+  }
+
+  void _onComparisonServiceChange() {
+    search(_lastQuery);
+  }
+
+  String _lastQuery = '';
+
+  @override
+  void dispose() {
+    _comparisonService.removeListener(_onComparisonServiceChange);
+    super.dispose();
   }
 
   bool _isLoading = false;
@@ -18,14 +33,26 @@ class HomeViewModel extends ChangeNotifier {
   List<InfoCardViewModel> get cards => _cards;
 
   Future<void> search(String query) async {
+    _lastQuery = query;
     _isLoading = true;
     notifyListeners();
 
     final weapons = await _repository.searchWeapons(query);
 
     _cards = weapons.map((weapon) {
+      final isSelected = _comparisonService.isWeaponSelected(weapon.id);
+
+      void onComparePressed() {
+        _comparisonService.toggleWeapon(weapon.id);
+      }
+
+      final IconData compareIcon = isSelected ? LucideIcons.checkCircle : LucideIcons.barChart2;
+
+      final CardTheme cardTheme = isSelected ? CardTheme.dark : CardTheme.dark;
+
       return InfoCardViewModel(
-        theme: CardTheme.dark,
+        theme: cardTheme,
+        isSelected: isSelected,
         imagePath: weapon.imagePath,
         title: weapon.name,
         details: {
@@ -45,9 +72,7 @@ class HomeViewModel extends ChangeNotifier {
           CardAction(
             viewModel: ActionButtonViewModel(
               icon: LucideIcons.barChart2,
-              onPressed: () {
-                print("Comparar ${weapon.name}");
-              },
+              onPressed: onComparePressed,
             ),
           ),
         ],

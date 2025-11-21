@@ -82,6 +82,13 @@ class _LoginViewState extends State<LoginView> {
                 setState(() {
                   _isLoading = false;
                 });
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(e.toString().replaceAll('Exception: ', '')),
+                    backgroundColor: Colors.red,
+                  ),
+                );
               }
             },
           ),
@@ -91,7 +98,14 @@ class _LoginViewState extends State<LoginView> {
   }
 
   Widget _buildFooter() {
-    return Container();
+      return SelectableText(
+        'Senha para testar:\nAdministrador: admin / 123',
+        style: TextStyle(
+          color: Colors.white70,
+          fontSize: 12,
+        ),
+        textAlign: TextAlign.center,
+      );
   }
 
   @override
