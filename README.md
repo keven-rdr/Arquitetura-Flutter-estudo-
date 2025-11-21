@@ -198,7 +198,7 @@ flutter:
 
 ## 🧭 Link do Design System no Figma
 
-*(Adicione seu link aqui)*
+[*(Figma)*](https://www.figma.com/design/0nQkZqlBB17JfuEAVssQOd/PUBG-VERSOS?node-id=0-1&t=JUaqGm6eGbkjxlEN-1)
 
 ------------------------------------------------------------------------
 
