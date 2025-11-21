@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import '../../repositories/auth_repository.dart';
+import 'package:arqmvvm/resources/repositories/auth_repository.dart';
 import '../../resources/shared/app_coordinator.dart';
 import 'login_service.dart';
 import 'login_view.dart';

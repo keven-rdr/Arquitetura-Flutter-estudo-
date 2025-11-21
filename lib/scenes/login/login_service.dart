@@ -1,4 +1,4 @@
-import 'package:arqmvvm/repositories/auth_repository.dart';
+import 'package:arqmvvm/resources/repositories/auth_repository.dart';
 
 class LoginService {
   final AuthRepository repository;
