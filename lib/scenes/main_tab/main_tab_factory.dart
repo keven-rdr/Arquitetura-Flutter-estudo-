@@ -1,12 +1,22 @@
+import 'package:flutter/material.dart';
 import '../../resources/shared/app_coordinator.dart';
-import 'main_tab_scene.dart';
-import 'package:flutter/cupertino.dart';
-import 'main_tab_view_model.dart';
+import '../../resources/services/comparison_service.dart';
+import '../Matches/match_scene.dart';
+import '../Matches/matches_view_model.dart';
 
-class MainTabFactory {
+
+class MatchesFactory {
   static Widget make({required AppCoordinator coordinator}) {
-    final viewModel = MainTabViewModel(coordinator: coordinator);
-    return MainTabScene(viewModel: viewModel);
+    final comparisonService = ComparisonService();
+
+    final viewModel = MatchesViewModel(
+      comparisonService: comparisonService,
+      coordinator: coordinator,
+      //he named parameter 'coordinator' isn't defined. (Documentation)
+      //
+      // Try correcting the name to an existing named parameter's name, or defining a named parameter with the name 'coordinator'.
+    );
+
+    return MatchesPage(viewModel: viewModel);
   }
 }
-
