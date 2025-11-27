@@ -28,7 +28,6 @@ class _MatchesPageState extends State<MatchesPage> {
           return Scaffold(
             backgroundColor: const Color(0xFF121212),
             appBar: AppBar(
-              title: const Text("Comparação", style: TextStyle(fontWeight: FontWeight.bold)),
               centerTitle: true,
               backgroundColor: Colors.transparent,
               elevation: 0,
@@ -44,13 +43,10 @@ class _MatchesPageState extends State<MatchesPage> {
                   children: [
                     const SizedBox(height: 10),
 
-                    // 1. Plataformas de Comparação (Sempre visíveis)
                     _buildComparisonRow(weapons),
 
                     const SizedBox(height: 40),
 
-                    // 2. Lógica de Exibição Condicional
-                    // Se puder comparar, mostra os cards. Se não, mostra mensagem vazia.
                     if (canCompare)
                       ..._buildDataCards()
                     else
@@ -58,10 +54,9 @@ class _MatchesPageState extends State<MatchesPage> {
 
                     const SizedBox(height: 32),
 
-                    // 3. Botão de Adicionar (Só aparece se houver espaço livre)
                     if (weapons.length < widget.viewModel.limit)
                       OutlinedButton.icon(
-                        onPressed: () => Navigator.of(context).pop(),
+                        onPressed: () => widget.viewModel.addMoreWeapons(),
                         icon: const Icon(LucideIcons.plus, color: brandPrimary),
                         label: const Text("ADICIONAR ARMA", style: TextStyle(color: brandPrimary, fontWeight: FontWeight.bold)),
                         style: OutlinedButton.styleFrom(
@@ -77,7 +72,6 @@ class _MatchesPageState extends State<MatchesPage> {
     );
   }
 
-  // --- Widgets Auxiliares ---
 
   Widget _buildEmptyStateMessage() {
     return Column(
@@ -117,7 +111,6 @@ class _MatchesPageState extends State<MatchesPage> {
   }
 
   Widget _buildComparisonRow(List<WeaponModel> weapons) {
-    // Garante o acesso seguro aos slots (evita erro de índice)
     final vm1 = widget.viewModel.platformViewModels[0];
     final vm2 = widget.viewModel.platformViewModels[1];
 
@@ -166,7 +159,7 @@ class _MatchesPageState extends State<MatchesPage> {
             ),
           )
         else
-          const SizedBox(height: 20), // Espaço vazio para manter alinhamento
+          const SizedBox(height: 20),
       ],
     );
   }
