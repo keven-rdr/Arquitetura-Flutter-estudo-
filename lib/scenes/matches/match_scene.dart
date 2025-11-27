@@ -26,7 +26,7 @@ class _MatchesPageState extends State<MatchesPage> {
           final canCompare = widget.viewModel.canCompare;
 
           return Scaffold(
-            backgroundColor: const Color(0xFF121212),
+            backgroundColor: dividerColorLight,
             appBar: AppBar(
               centerTitle: true,
               backgroundColor: Colors.transparent,
