@@ -3,6 +3,7 @@ import '../../DesignSystem/Components/BottomTabBar/bottom_tab_bar.dart';
 import '../../DesignSystem/Components/BottomTabBar/bottom_tab_bar_view_model.dart';
 import '../../resources/shared/colors.dart';
 import '../Home/home_factory.dart';
+import '../profile/profile_factory.dart';
 import 'main_tab_factory.dart';
 import 'main_tab_view_model.dart';
 
@@ -29,7 +30,7 @@ class _MainTabSceneState extends State<MainTabScene> implements BottomTabBarDele
       HomeFactory.make(coordinator: widget.viewModel.coordinator),
       MatchesFactory.make(coordinator: widget.viewModel.coordinator),
       const Scaffold(body: Center(child: Text("Favoritos"))),
-      const Scaffold(body: Center(child: Text("Perfil"))),
+      ProfileFactory.make(coordinator: widget.viewModel.coordinator),
     ];
   }
 
