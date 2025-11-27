@@ -4,17 +4,28 @@ import 'package:flutter/material.dart' hide CardTheme;
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../DesignSystem/Components/Buttons/ActionButton/action_button_view_model.dart';
 import '../../DesignSystem/Components/Card/card_view_model.dart';
+import '../favorites/favorites_service.dart';
 
 class HomeViewModel extends ChangeNotifier {
   final WeaponRepository _repository;
   final ComparisonService _comparisonService;
+  final FavoritesService _favoritesService;
 
-  HomeViewModel({required WeaponRepository repository, required ComparisonService comparisonService,}) : _repository = repository, _comparisonService = comparisonService {
-    _comparisonService.addListener(_onComparisonServiceChange);
+  HomeViewModel({
+    required WeaponRepository repository,
+    required ComparisonService comparisonService,
+    required FavoritesService favoritesService,
+  })  : _repository = repository,
+        _comparisonService = comparisonService,
+        _favoritesService = favoritesService {
+
+    _comparisonService.addListener(_refreshSearch);
+    _favoritesService.addListener(_refreshSearch);
+
     search('');
   }
 
-  void _onComparisonServiceChange() {
+  void _refreshSearch() {
     search(_lastQuery);
   }
 
@@ -22,7 +33,8 @@ class HomeViewModel extends ChangeNotifier {
 
   @override
   void dispose() {
-    _comparisonService.removeListener(_onComparisonServiceChange);
+    _comparisonService.removeListener(_refreshSearch);
+    _favoritesService.removeListener(_refreshSearch);
     super.dispose();
   }
 
@@ -41,17 +53,18 @@ class HomeViewModel extends ChangeNotifier {
 
     _cards = weapons.map((weapon) {
       final isSelected = _comparisonService.isWeaponSelected(weapon.id);
-
-      void onComparePressed() {
-        _comparisonService.toggleWeapon(weapon.id);
-      }
+      final isFavorite = _favoritesService.isFavorite(weapon.id);
 
       final IconData compareIcon = isSelected ? LucideIcons.checkCircle : LucideIcons.barChart2;
 
-      final CardTheme cardTheme = isSelected ? CardTheme.dark : CardTheme.dark;
+      final IconData favoriteIcon = LucideIcons.heart;
+
+      final ActionButtonStyle favoriteStyle = isFavorite
+          ? ActionButtonStyle.destructive
+          : ActionButtonStyle.ghost;
 
       return InfoCardViewModel(
-        theme: cardTheme,
+        theme: CardTheme.dark,
         isSelected: isSelected,
         imagePath: weapon.imagePath,
         title: weapon.name,
@@ -63,16 +76,19 @@ class HomeViewModel extends ChangeNotifier {
         actions: [
           CardAction(
             viewModel: ActionButtonViewModel(
-              icon: LucideIcons.heart,
+              style: favoriteStyle,
+              icon: favoriteIcon,
               onPressed: () {
-                print("Favoritar ${weapon.name} (ID: ${weapon.id})");
+                _favoritesService.toggleFavorite(weapon.id);
               },
             ),
           ),
           CardAction(
             viewModel: ActionButtonViewModel(
-              icon: LucideIcons.barChart2,
-              onPressed: onComparePressed,
+              icon: compareIcon,
+              onPressed: () {
+                _comparisonService.toggleWeapon(weapon.id);
+              },
             ),
           ),
         ],

@@ -1,3 +1,4 @@
+import 'package:arqmvvm/scenes/favorites/favorites_service.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:arqmvvm/DesignSystem/Components/InputField/input_text.dart';
@@ -25,7 +26,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _viewModel = HomeViewModel(repository: WeaponRepository(), comparisonService: ComparisonService());
+    _viewModel = HomeViewModel(repository: WeaponRepository(), comparisonService: ComparisonService(), favoritesService: FavoritesService());
     _searchController.addListener(_onSearchChanged);
   }
 

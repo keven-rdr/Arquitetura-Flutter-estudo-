@@ -76,7 +76,7 @@ class ActionButton extends StatelessWidget {
         break;
       case ActionButtonStyle.ghost:
         backgroundColor = Colors.transparent;
-        foregroundColor = brandSecondary;
+        foregroundColor = neutralLight;
         break;
       case ActionButtonStyle.primaryDarkIcon:
         throw UnimplementedError();

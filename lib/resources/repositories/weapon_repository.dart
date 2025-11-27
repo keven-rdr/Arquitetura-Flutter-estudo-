@@ -19,19 +19,19 @@ class WeaponRepository {
       bodyDamageLevel2: 25.8, powerValue: 9000.0,
     ),
     WeaponModel(
-      id: '4', name: 'AWM', damage: '105', speed: '945 m/s', type: 'SR', imagePath: 'assets/weapons/awm.png',
+      id: '4', name: 'AWM', damage: '105', speed: '945 m/s', type: 'SR', imagePath: 'assets/weapons/awm.jfif',
       bodyDamageLevel2: 81.8, powerValue: 40000.0,
     ),
     WeaponModel(
-      id: '5', name: 'Beryl M762', damage: '44', speed: '740 m/s', type: 'AR', imagePath: 'assets/weapons/beryl.png',
+      id: '5', name: 'Beryl M762', damage: '44', speed: '740 m/s', type: 'AR', imagePath: 'assets/weapons/beryl.jfif',
       bodyDamageLevel2: 28.2, powerValue: 10000.0,
     ),
     WeaponModel(
-      id: '6', name: 'Besta', damage: '105', speed: '160 m/s', type: 'Outros', imagePath: 'assets/weapons/crossbow.png',
+      id: '6', name: 'Besta', damage: '105', speed: '160 m/s', type: 'Outros', imagePath: 'assets/weapons/crossbow.jfif',
       bodyDamageLevel2: 62.8, powerValue: 8000.0,
     ),
     WeaponModel(
-      id: '7', name: 'M416', damage: '40', speed: '780 m/s', type: 'AR', imagePath: 'assets/weapons/m416.png',
+      id: '7', name: 'M416', damage: '40', speed: '780 m/s', type: 'AR', imagePath: 'assets/weapons/m416.jfif',
       bodyDamageLevel2: 24.0, powerValue: 3500.0,
     ),
   ];

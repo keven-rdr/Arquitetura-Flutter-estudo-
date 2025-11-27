@@ -1,3 +1,4 @@
+import 'package:arqmvvm/scenes/favorites/favorites_factory.dart';
 import 'package:flutter/material.dart';
 import '../../DesignSystem/Components/BottomTabBar/bottom_tab_bar.dart';
 import '../../DesignSystem/Components/BottomTabBar/bottom_tab_bar_view_model.dart';
@@ -29,7 +30,7 @@ class _MainTabSceneState extends State<MainTabScene> implements BottomTabBarDele
     _pages = [
       HomeFactory.make(coordinator: widget.viewModel.coordinator),
       MatchesFactory.make(coordinator: widget.viewModel.coordinator),
-      const Scaffold(body: Center(child: Text("Favoritos"))),
+      FavoritesFactory.make(coordinator: widget.viewModel.coordinator),
       ProfileFactory.make(coordinator: widget.viewModel.coordinator),
     ];
   }
