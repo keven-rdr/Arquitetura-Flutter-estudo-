@@ -1,44 +1,21 @@
-import 'package:arqmvvm/DesignSystem/Components/ValueComparisonCard/value_comparison_card_view_model.dart';
 import 'package:flutter/material.dart';
 import '../../../resources/shared/colors.dart';
+import 'value_comparison_card_view_model.dart';
 
 class ValueComparisonCard extends StatelessWidget {
   final ValueComparisonViewModel viewModel;
 
   const ValueComparisonCard({super.key, required this.viewModel});
 
-  Widget _buildValueColumn(ValueEntry entry, Color labelColor) {
-    return Column(
-      children: [
-        Text(
-          entry.value,
-          style: TextStyle(
-            fontSize: 48,
-            fontWeight: FontWeight.bold,
-            color: entry.color,
-          ),
-        ),
-        Text(
-          entry.label,
-          style: TextStyle(
-            fontSize: 14,
-            color: labelColor,
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final bool isDark = viewModel.theme == ValueCardTheme.dark;
-    final Color cardColor = isDark ? brandSecondary.withOpacity(0.8) : neutralLight;
-    final Color textColor = isDark ? neutralLight.withOpacity(0.9) : brandSecondary.withOpacity(0.8);
-    final Color labelColor = isDark ? neutralLight.withOpacity(0.8) : brandSecondary.withOpacity(0.7);
-    final Color separatorColor = brandPrimary;
+    final Color cardColor = isDark ? const Color(0xFF1E1E1E) : neutralLight;
+    final Color dividerColor = isDark ? Colors.grey[700]! : Colors.grey[300]!;
+    final Color detailsColor = isDark ? Colors.grey[400]! : Colors.grey[600]!;
 
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
       decoration: BoxDecoration(
         color: cardColor,
         borderRadius: BorderRadius.circular(16),
@@ -51,35 +28,77 @@ class ValueComparisonCard extends StatelessWidget {
         ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _buildValueColumn(viewModel.entry1, labelColor),
-              Container(
-                height: 60,
-                width: 2,
-                color: separatorColor,
-              ),
-              _buildValueColumn(viewModel.entry2, labelColor),
-            ],
-          ),
-          const SizedBox(height: 24),
-          ...viewModel.details.map(
-                (detail) => Padding(
-              padding: const EdgeInsets.only(bottom: 4.0),
-              child: Text(
-                '• $detail',
-                style: TextStyle(
-                  color: textColor,
-                  fontSize: 14,
+              Expanded(
+                child: _buildValueColumn(
+                  viewModel.entry1,
+                  CrossAxisAlignment.end,
                 ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Container(
+                  height: 40,
+                  width: 1,
+                  color: dividerColor,
+                ),
+              ),
+              Expanded(
+                child: _buildValueColumn(
+                  viewModel.entry2,
+                  CrossAxisAlignment.start,
+                ),
+              ),
+            ],
           ),
+          const SizedBox(height: 12),
+          if (viewModel.details.isNotEmpty)
+            Text(
+              viewModel.details.first.toUpperCase(),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: detailsColor,
+                fontSize: 10,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 1.0,
+              ),
+            ),
         ],
       ),
+    );
+  }
+  Widget _buildValueColumn(ValueEntry entry, CrossAxisAlignment alignment) {
+    return Column(
+      crossAxisAlignment: alignment,
+      children: [
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            entry.value,
+            style: TextStyle(
+              fontSize: 36,
+              fontWeight: FontWeight.bold,
+              color: entry.color,
+              height: 1.0,
+            ),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          entry.label,
+          style: const TextStyle(
+            fontSize: 12,
+            color: Colors.white70,
+            fontWeight: FontWeight.w500,
+          ),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+        ),
+      ],
     );
   }
 }

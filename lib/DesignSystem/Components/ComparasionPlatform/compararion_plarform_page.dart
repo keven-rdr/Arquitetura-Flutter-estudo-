@@ -9,29 +9,33 @@ class ComparisonPlatform extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool hasImage = viewModel.imagePath.isNotEmpty && !viewModel.imagePath.contains('empty');
+
     return Container(
       width: viewModel.size,
       height: viewModel.size,
       decoration: BoxDecoration(
-        color: brandSecondary,
         shape: BoxShape.circle,
-        gradient: LinearGradient(
+        gradient: hasImage ? RadialGradient(
           colors: [
-            Colors.transparent,
-            Colors.transparent,
-            brandPrimary.withOpacity(0.8),
+            brandSecondary.withOpacity(0.3),
+            Colors.black.withOpacity(0.8),
           ],
-          stops: const [0.0, 0.6, 1.0],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
+          radius: 0.8,
+        ) : null,
+        color: hasImage ? null : Colors.white10,
+        border: hasImage ? Border.all(color: brandSecondary.withOpacity(0.5), width: 1) : null,
       ),
       child: Center(
-        child: Image.asset(
-          viewModel.imagePath,
-          width: viewModel.size * 0.8,
-          fit: BoxFit.contain,
-        ),
+        child: viewModel.imagePath.isNotEmpty
+            ? Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Image.asset(
+            viewModel.imagePath,
+            fit: BoxFit.contain,
+          ),
+        )
+            : const Icon(Icons.add, color: Colors.white24, size: 40),
       ),
     );
   }

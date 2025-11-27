@@ -1,13 +1,9 @@
-import 'package:arqmvvm/scenes/Profile/profile_factory.dart';
-
+import 'package:flutter/material.dart';
 import '../../DesignSystem/Components/BottomTabBar/bottom_tab_bar.dart';
 import '../../DesignSystem/Components/BottomTabBar/bottom_tab_bar_view_model.dart';
-import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 import '../../resources/shared/colors.dart';
-import '../Favorites/favorites_scene.dart';
 import '../Home/home_factory.dart';
-import '../Matches/matches_factory.dart';
+import 'main_tab_factory.dart';
 import 'main_tab_view_model.dart';
 
 class MainTabScene extends StatefulWidget {
@@ -21,29 +17,49 @@ class MainTabScene extends StatefulWidget {
 
 class _MainTabSceneState extends State<MainTabScene> implements BottomTabBarDelegate {
   int _currentIndex = 0;
+  late List<Widget> _pages;
 
-  List<Widget> get _pages {
-    final coordinator = widget.viewModel.coordinator;
+  @override
+  void initState() {
+    super.initState();
 
-    return [
-      HomeFactory.make(coordinator: coordinator),
-      MatchesFactory.make(coordinator: coordinator),
-      const FavoritesPage(),
-      ProfileFactory.make(coordinator: coordinator)
+    widget.viewModel.coordinator.tabNotifier.addListener(_handleTabChangeRequest);
+
+    _pages = [
+      HomeFactory.make(coordinator: widget.viewModel.coordinator),
+      MatchesFactory.make(coordinator: widget.viewModel.coordinator),
+      const Scaffold(body: Center(child: Text("Favoritos"))),
+      const Scaffold(body: Center(child: Text("Perfil"))),
     ];
+  }
+
+  @override
+  void dispose() {
+    widget.viewModel.coordinator.tabNotifier.removeListener(_handleTabChangeRequest);
+    super.dispose();
+  }
+
+  void _handleTabChangeRequest() {
+    final newIndex = widget.viewModel.coordinator.tabNotifier.value;
+    if (newIndex != _currentIndex) {
+      setState(() {
+        _currentIndex = newIndex;
+      });
+    }
   }
 
   @override
   void onIndexChange(int currentIndex) {
     setState(() {
       _currentIndex = currentIndex;
+      widget.viewModel.coordinator.tabNotifier.value = currentIndex;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    const BottomTabTheme currentTheme = BottomTabTheme.dark;
-    final pageBackgroundColor = currentTheme == BottomTabTheme.dark
+    final theme = widget.viewModel.bottomTabBarViewModel.theme;
+    final pageBackgroundColor = theme == BottomTabTheme.dark
         ? brandSecondary.withOpacity(0.9)
         : const Color(0xFFF0F0F0);
 
@@ -61,15 +77,7 @@ class _MainTabSceneState extends State<MainTabScene> implements BottomTabBarDele
             right: 0,
             bottom: 0,
             child: BottomTabBar.instantiate(
-              viewModel: BottomTabBarViewModel(
-                theme: currentTheme,
-                bottomTabs: [
-                  const BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: ""),
-                  const BottomNavigationBarItem(icon: Icon(LucideIcons.swords), label: ""),
-                  const BottomNavigationBarItem(icon: Icon(LucideIcons.heart), label: ""),
-                  const BottomNavigationBarItem(icon: Icon(LucideIcons.user), label: ""),
-                ],
-              ),
+              viewModel: widget.viewModel.bottomTabBarViewModel,
               currentIndex: _currentIndex,
               delegate: this,
             ),
@@ -79,4 +87,3 @@ class _MainTabSceneState extends State<MainTabScene> implements BottomTabBarDele
     );
   }
 }
-

@@ -5,6 +5,8 @@ class WeaponModel {
   final String speed;
   final String type;
   final String imagePath;
+  final double bodyDamageLevel2;
+  final double powerValue;
 
   WeaponModel({
     required this.id,
@@ -13,5 +15,7 @@ class WeaponModel {
     required this.speed,
     required this.type,
     required this.imagePath,
+    required this.bodyDamageLevel2,
+    required this.powerValue,
   });
 }
